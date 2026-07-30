@@ -34,24 +34,106 @@ def _postal_address(address):
             "addressCountry": "US"}
 
 
-def dealer_meta_description(dealer):
-    """Build a unique meta description for a dealer page."""
-    address = dealer["address"]
+def _dealer_kind(dealer):
+    """Classify a dealer as a physical location, nationwide, or service area."""
+    address = (dealer["address"] or "").strip()
     if address and address.lower() != "nationwide":
-        desc = (f'{dealer["name"]} is an authorized low speed vehicle (LSV) dealer at '
-                f'{address}. Shop street-legal golf carts, electric utility vehicles, '
-                f'and NEVs.')
-    elif address.lower() == "nationwide":
-        desc = (f'{dealer["name"]} is an authorized low speed vehicle (LSV) dealer '
-                f'serving customers nationwide. Shop street-legal golf carts, electric '
-                f'utility vehicles, and NEVs.')
+        return "local"
+    if address.lower() == "nationwide":
+        return "nationwide"
+    return "service"
+
+
+def dealer_title(dealer):
+    """Build a search-intent-matched, unique title tag for a dealer page."""
+    name = dealer["name"]
+    if "golf" in name.lower():
+        return f"{name} – Street-Legal Golf Carts & LSVs | LSVDealer.com"
+    if _dealer_kind(dealer) == "service":
+        return f"{name} Golf Cart Dealers – Street-Legal LSVs | LSVDealer.com"
+    return f"{name} Golf Cart Dealer – Street-Legal LSVs | LSVDealer.com"
+
+
+def dealer_meta_description(dealer):
+    """Build a unique, CTR-focused meta description for a dealer page."""
+    name, phone = dealer["name"], dealer["phone"]
+    kind = _dealer_kind(dealer)
+    if kind == "local":
+        desc = (f"Shop street-legal golf carts, LSVs & electric carts at our {name} "
+                f"dealership. New & used models.")
+    elif kind == "nationwide":
+        desc = (f"Shop street-legal golf carts, LSVs & electric carts with {name}, "
+                f"serving customers nationwide. New & used models.")
     else:
-        desc = (f'{dealer["name"]} — your authorized low speed vehicle (LSV) dealer '
-                f'serving {dealer["name"]}. Shop street-legal golf carts and electric '
-                f'vehicles.')
-    if dealer["phone"]:
-        desc += f' Call {dealer["phone"]}.'
+        desc = (f"Looking for a golf cart dealer in {name}? Shop street-legal golf "
+                f"carts, LSVs & electric carts. New & used models.")
+    if phone:
+        desc += f" Call {phone} or get directions today."
+    else:
+        desc += " Contact us today."
     return desc
+
+
+def dealer_faq_pairs(dealer):
+    """Return location-specific (question, answer) pairs built from real data."""
+    name = dealer["name"]
+    kind = _dealer_kind(dealer)
+    pairs = [(
+        f"Does {name} sell street-legal golf carts?",
+        (f"Yes. {name} sells street-legal low speed vehicles (LSVs) and electric golf "
+         "carts equipped with headlights, turn signals, mirrors, seat belts, and a "
+         "windshield for legal use on roads posted at 35 mph or less."),
+    )]
+    if kind == "local":
+        pairs.append((f"Where is {name} located?",
+                      f"{name} is located at {dealer['address']}."))
+    elif kind == "nationwide":
+        pairs.append((f"What areas does {name} serve?",
+                      f"{name} serves customers across the United States."))
+    else:
+        pairs.append((f"What areas does {name} serve?",
+                      f"{name} serves customers throughout {name} and the "
+                      "surrounding region."))
+    if dealer["phone"]:
+        pairs.append((f"How do I contact {name}?",
+                      f"Call {name} at {dealer['phone']} to check current golf cart "
+                      "availability, pricing, and directions."))
+    pairs.append((
+        "Are low speed vehicles and golf carts street legal?",
+        ("Low speed vehicles (LSVs) are street legal on most roads posted at 35 mph or "
+         f"less when equipped with the required safety features. {name} can help you "
+         "find a street-legal golf cart that meets your local requirements."),
+    ))
+    return pairs
+
+
+def dealer_faq_section(dealer):
+    """Return the FAQ HTML section plus FAQPage JSON-LD for a dealer page."""
+    import html as _html
+    pairs = dealer_faq_pairs(dealer)
+    rows = "\n".join(
+        f"                <h3>{_html.escape(q)}</h3>\n"
+        f"                <p>{_html.escape(a)}</p>"
+        for q, a in pairs
+    )
+    faq_obj = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in pairs
+        ],
+    }
+    return (
+        '<section class="dealer-faq">\n'
+        "                <h2>Frequently Asked Questions</h2>\n"
+        f"{rows}\n"
+        "            </section>\n"
+        '            <script type="application/ld+json">\n'
+        + json.dumps(faq_obj, indent=2)
+        + "\n            </script>"
+    )
 
 
 def dealer_jsonld(dealer):
@@ -519,8 +601,8 @@ def generate_html_files():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LSV Dealer - Low Speed Vehicle Dealers</title>
-        <meta name="description" content="LSVDealer.com connects you with authorized low speed vehicle (LSV) dealers nationwide. Find street-legal golf carts, electric utility vehicles, and NEVs near you.">
+        <title>Golf Cart &amp; LSV Dealers Nationwide | LSVDealer.com</title>
+        <meta name="description" content="Find street-legal golf carts and low speed vehicles (LSVs) from authorized dealers near you. Shop electric carts &amp; NEVs nationwide — browse dealers and call today.">
         <link rel="canonical" href="https://lsvdealer.com/">
         <link rel="stylesheet" href="css/styles.css">
         <script type="application/ld+json">
@@ -627,7 +709,7 @@ def generate_html_files():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>{dealer["name"]} - Low Speed Vehicle Dealer | LSVDealer.com</title>
+            <title>{dealer_title(dealer)}</title>
             <link rel="stylesheet" href="css/styles.css">
             {dealer_head_extras(dealer)}
         </head>
@@ -653,14 +735,16 @@ def generate_html_files():
             <main class="container">
                 <section class="dealer-header">
                     <h1>{dealer["name"]}</h1>
-                    <p class="subtitle">Low Speed Vehicle Dealer</p>
+                    <p class="subtitle">Golf Cart &amp; Low Speed Vehicle (LSV) Dealer</p>
                     {f'<a href="{dealer["cid"]}" target="_blank" class="map-link">View on Google Maps</a>' if dealer["cid"] else ""}
                 </section>
-                
+
                 <section class="dealer-content">
                     {dealer_content(dealer)}
                 </section>
-                
+
+                {dealer_faq_section(dealer)}
+
                 <section class="back-link">
                     <a href="index.html#dealers">&larr; Back to All Dealers</a>
                 </section>
