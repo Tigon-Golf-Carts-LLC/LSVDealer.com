@@ -1,5 +1,100 @@
 import os
+import re
+import json
 import zipfile
+
+SITE_BASE = "https://lsvdealer.com"
+
+# Shared Organization node reused across structured-data blocks.
+ORG_SCHEMA = {
+    "@type": "Organization",
+    "name": "LSVDealer.com",
+    "url": SITE_BASE + "/",
+    "telephone": "1-844-844-6638",
+    "email": "info@lsvdealer.com",
+}
+
+_STATE_ZIP = re.compile(r"^(.*),\s*([A-Za-z .]+),\s*([A-Z]{2})\s+(\d{5})$")
+
+
+def _postal_address(address):
+    """Parse a US address string into a schema.org PostalAddress dict."""
+    m = _STATE_ZIP.match(address.strip())
+    if m:
+        street, city, state, zip_ = m.groups()
+        return {
+            "@type": "PostalAddress",
+            "streetAddress": street.strip(),
+            "addressLocality": city.strip(),
+            "addressRegion": state.strip(),
+            "postalCode": zip_.strip(),
+            "addressCountry": "US",
+        }
+    return {"@type": "PostalAddress", "streetAddress": address.strip(),
+            "addressCountry": "US"}
+
+
+def dealer_meta_description(dealer):
+    """Build a unique meta description for a dealer page."""
+    address = dealer["address"]
+    if address and address.lower() != "nationwide":
+        desc = (f'{dealer["name"]} is an authorized low speed vehicle (LSV) dealer at '
+                f'{address}. Shop street-legal golf carts, electric utility vehicles, '
+                f'and NEVs.')
+    elif address.lower() == "nationwide":
+        desc = (f'{dealer["name"]} is an authorized low speed vehicle (LSV) dealer '
+                f'serving customers nationwide. Shop street-legal golf carts, electric '
+                f'utility vehicles, and NEVs.')
+    else:
+        desc = (f'{dealer["name"]} — your authorized low speed vehicle (LSV) dealer '
+                f'serving {dealer["name"]}. Shop street-legal golf carts and electric '
+                f'vehicles.')
+    if dealer["phone"]:
+        desc += f' Call {dealer["phone"]}.'
+    return desc
+
+
+def dealer_jsonld(dealer):
+    """Build AutoDealer JSON-LD structured data for a dealer page."""
+    url = f'{SITE_BASE}/{dealer["filename"]}'
+    obj = {
+        "@context": "https://schema.org",
+        "@type": "AutoDealer",
+        "name": f'{dealer["name"]} - LSVDealer.com',
+        "url": url,
+        "parentOrganization": ORG_SCHEMA,
+    }
+    if dealer["phone"]:
+        obj["telephone"] = dealer["phone"]
+    if dealer["address"] and dealer["address"].lower() != "nationwide":
+        obj["address"] = _postal_address(dealer["address"])
+    elif dealer["address"].lower() == "nationwide":
+        obj["areaServed"] = "United States"
+    else:
+        obj["areaServed"] = dealer["name"]
+    if dealer["latlon"]:
+        try:
+            lat, lon = [p.strip() for p in dealer["latlon"].split(",")]
+            if lat and lon:
+                obj["geo"] = {"@type": "GeoCoordinates",
+                              "latitude": lat, "longitude": lon}
+        except ValueError:
+            pass
+    same_as = [dealer[k] for k in ("website", "facebook", "youtube", "pinterest")
+               if dealer.get(k)]
+    if same_as:
+        obj["sameAs"] = same_as
+    return json.dumps(obj, indent=2)
+
+
+def dealer_head_extras(dealer):
+    """Return meta description, canonical link, and JSON-LD for a dealer <head>."""
+    desc = dealer_meta_description(dealer).replace('"', "&quot;")
+    url = f'{SITE_BASE}/{dealer["filename"]}'
+    return (f'<meta name="description" content="{desc}">\n'
+            f'        <link rel="canonical" href="{url}">\n'
+            f'        <script type="application/ld+json">\n{dealer_jsonld(dealer)}\n'
+            f'        </script>')
 
 # Dealer info as dictionaries
 dealers = [
@@ -425,7 +520,28 @@ def generate_html_files():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LSV Dealer - Low Speed Vehicle Dealers</title>
+        <meta name="description" content="LSVDealer.com connects you with authorized low speed vehicle (LSV) dealers nationwide. Find street-legal golf carts, electric utility vehicles, and NEVs near you.">
+        <link rel="canonical" href="https://lsvdealer.com/">
         <link rel="stylesheet" href="css/styles.css">
+        <script type="application/ld+json">
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "LSVDealer.com",
+            "url": "https://lsvdealer.com/",
+            "telephone": "1-844-844-6638",
+            "email": "info@lsvdealer.com",
+            "description": "Directory of authorized low speed vehicle (LSV) dealers across the United States."
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "LSVDealer.com",
+            "url": "https://lsvdealer.com/"
+          }
+        ]
+        </script>
     </head>
     <body>
         <header>
@@ -485,8 +601,8 @@ def generate_html_files():
             <section id="contact">
                 <h2>Contact Us</h2>
                 <p>For general inquiries about our dealer network:</p>
-                <p>Email: info@lsvdealer.com</p>
-                <p>Phone: 1-800-LSV-DEAL</p>
+                <p>Email: <!--email_off--><a href="mailto:info@lsvdealer.com">info@lsvdealer.com</a><!--/email_off--></p>
+                <p>Phone: 1-844-844-6638</p>
             </section>
         </main>
         
@@ -513,6 +629,7 @@ def generate_html_files():
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{dealer["name"]} - Low Speed Vehicle Dealer | LSVDealer.com</title>
             <link rel="stylesheet" href="css/styles.css">
+            {dealer_head_extras(dealer)}
         </head>
         <body>
             <header>

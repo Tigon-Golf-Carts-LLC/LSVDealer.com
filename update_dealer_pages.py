@@ -1,6 +1,35 @@
 import os
 import re
+import json
 from pathlib import Path
+
+SITE_BASE = "https://lsvdealer.com"
+
+ORG_SCHEMA = {
+    "@type": "Organization",
+    "name": "LSVDealer.com",
+    "url": SITE_BASE + "/",
+    "telephone": "1-844-844-6638",
+    "email": "info@lsvdealer.com",
+}
+
+_STATE_ZIP = re.compile(r"^(.*),\s*([A-Za-z .]+),\s*([A-Z]{2})\s+(\d{5})$")
+
+
+def _postal_address(address):
+    m = _STATE_ZIP.match(address.strip())
+    if m:
+        street, city, state, zip_ = m.groups()
+        return {
+            "@type": "PostalAddress",
+            "streetAddress": street.strip(),
+            "addressLocality": city.strip(),
+            "addressRegion": state.strip(),
+            "postalCode": zip_.strip(),
+            "addressCountry": "US",
+        }
+    return {"@type": "PostalAddress", "streetAddress": address.strip(),
+            "addressCountry": "US"}
 
 # Get all dealer HTML files
 dealer_files = list(Path('/home/ubuntu/dealership_enhanced').glob('dealer-*.html'))
@@ -98,8 +127,59 @@ for dealer_file in dealer_files:
     if address and "Service Area" not in address:
         visit_location_html = f'<h2>Visit Our Location</h2><p>Come visit our showroom at {address} to see our selection of low speed vehicles and speak with our knowledgeable staff.</p>'
     
+    # Build SEO head extras: meta description, canonical URL, and JSON-LD.
+    page_url = f"{SITE_BASE}/{dealer_file.name}"
+    is_service_area = (not address) or ("Service Area" in address)
+    if address and not is_service_area and address.lower() != "nationwide":
+        meta_description = (f"{dealer_name} is an authorized low speed vehicle (LSV) "
+                            f"dealer at {address}. Shop street-legal golf carts, "
+                            f"electric utility vehicles, and NEVs.")
+    elif address.lower() == "nationwide":
+        meta_description = (f"{dealer_name} is an authorized low speed vehicle (LSV) "
+                            f"dealer serving customers nationwide. Shop street-legal "
+                            f"golf carts, electric utility vehicles, and NEVs.")
+    else:
+        meta_description = (f"{dealer_name} — your authorized low speed vehicle (LSV) "
+                            f"dealer serving {dealer_name}. Shop street-legal golf "
+                            f"carts and electric vehicles.")
+    if phone:
+        meta_description += f" Call {phone}."
+
+    jsonld_obj = {
+        "@context": "https://schema.org",
+        "@type": "AutoDealer",
+        "name": f"{dealer_name} - LSVDealer.com",
+        "url": page_url,
+        "parentOrganization": ORG_SCHEMA,
+    }
+    if phone:
+        jsonld_obj["telephone"] = phone
+    if address and not is_service_area and address.lower() != "nationwide":
+        jsonld_obj["address"] = _postal_address(address)
+    elif address.lower() == "nationwide":
+        jsonld_obj["areaServed"] = "United States"
+    else:
+        jsonld_obj["areaServed"] = dealer_name
+    if latlon:
+        try:
+            lat, lon = [p.strip() for p in latlon.split(",")]
+            if lat and lon:
+                jsonld_obj["geo"] = {"@type": "GeoCoordinates",
+                                     "latitude": lat, "longitude": lon}
+        except ValueError:
+            pass
+    same_as = [u for u in (website, facebook, youtube, pinterest) if u]
+    if same_as:
+        jsonld_obj["sameAs"] = same_as
+    jsonld_html = ('<script type="application/ld+json">\n'
+                   + json.dumps(jsonld_obj, indent=2) + "\n    </script>")
+
     # Replace placeholders in template
-    new_content = template.replace('DEALER_NAME', dealer_name)
+    new_content = template.replace('DEALER_META_DESCRIPTION',
+                                   meta_description.replace('"', "&quot;"))
+    new_content = new_content.replace('DEALER_CANONICAL', page_url)
+    new_content = new_content.replace('DEALER_JSONLD', jsonld_html)
+    new_content = new_content.replace('DEALER_NAME', dealer_name)
     new_content = new_content.replace('DEALER_PHONE', phone_html)
     new_content = new_content.replace('DEALER_ADDRESS', address_html)
     new_content = new_content.replace('DEALER_WEBSITE', website_html)
