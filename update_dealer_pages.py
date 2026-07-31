@@ -122,7 +122,9 @@ for dealer_file in dealer_files:
     page_url = f"{SITE_BASE}/{dealer_file.name}"
     meta_description = gen.dealer_meta_description(dealer_record)
     jsonld_html = ('<script type="application/ld+json">\n'
-                   + gen.dealer_jsonld(dealer_record) + "\n    </script>")
+                   + gen.dealer_jsonld(dealer_record) + "\n    </script>\n"
+                   + '    <script type="application/ld+json">\n'
+                   + gen.dealer_breadcrumb_jsonld(dealer_record) + "\n    </script>")
 
     # Replace placeholders in template
     new_content = template.replace('DEALER_TITLE', gen.dealer_title(dealer_record))
@@ -130,6 +132,10 @@ for dealer_file in dealer_files:
                                       meta_description.replace('"', "&quot;"))
     new_content = new_content.replace('DEALER_CANONICAL', page_url)
     new_content = new_content.replace('DEALER_JSONLD', jsonld_html)
+    new_content = new_content.replace('DEALER_BREADCRUMB',
+                                      gen.dealer_breadcrumb_html(dealer_record))
+    new_content = new_content.replace('DEALER_CATEGORY_LINK',
+                                      gen.dealer_category_link_html(dealer_record))
     new_content = new_content.replace('DEALER_FAQ', gen.dealer_faq_section(dealer_record))
     new_content = new_content.replace('DEALER_NAME', dealer_name)
     new_content = new_content.replace('DEALER_PHONE', phone_html)

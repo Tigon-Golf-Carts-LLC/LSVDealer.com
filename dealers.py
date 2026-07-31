@@ -166,7 +166,57 @@ def dealer_jsonld(dealer):
                if dealer.get(k)]
     if same_as:
         obj["sameAs"] = same_as
+    # Explicit product-category signals so search engines associate the page
+    # with LSVs and golf carts (not generic auto/truck dealerships).
+    obj["knowsAbout"] = ["Low Speed Vehicles", "Electric Golf Carts",
+                         "Street-Legal Golf Carts", "Neighborhood Electric Vehicles"]
+    obj["makesOffer"] = [
+        {"@type": "Offer", "itemOffered": {
+            "@type": "Product", "name": "Electric Low Speed Vehicle (LSV)",
+            "category": "Low Speed Vehicle"}},
+        {"@type": "Offer", "itemOffered": {
+            "@type": "Product", "name": "Street-Legal Electric Golf Cart",
+            "category": "Golf Cart"}},
+    ]
     return json.dumps(obj, indent=2)
+
+
+def dealer_breadcrumb_jsonld(dealer):
+    """BreadcrumbList JSON-LD reinforcing the Home > Dealers > location taxonomy."""
+    url = f'{SITE_BASE}/{dealer["filename"]}'
+    obj = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",
+             "item": SITE_BASE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Find Dealers",
+             "item": SITE_BASE + "/find-dealers.html"},
+            {"@type": "ListItem", "position": 3, "name": dealer["name"],
+             "item": url},
+        ],
+    }
+    return json.dumps(obj, indent=2)
+
+
+def dealer_breadcrumb_html(dealer):
+    """Visible breadcrumb trail (must accompany the BreadcrumbList JSON-LD)."""
+    import html as _html
+    return ('<nav class="breadcrumb" aria-label="Breadcrumb">\n'
+            '                <a href="index.html">Home</a> &rsaquo; '
+            '<a href="find-dealers.html">Find Dealers</a> &rsaquo; '
+            f'<span aria-current="page">{_html.escape(dealer["name"])}</span>\n'
+            '            </nav>')
+
+
+def dealer_category_link_html(dealer):
+    """Contextual internal link from a dealer page to the LSV category hub."""
+    return ('<section class="category-link">\n'
+            f'                <p>New to low speed vehicles? Explore our guide to '
+            '<a href="electric-lsv-vehicles.html">electric low speed vehicles for '
+            'sale</a> to see why buyers choose street-legal LSVs, or browse '
+            '<a href="find-dealers.html">all LSV dealer locations</a>.</p>\n'
+            '            </section>')
 
 
 def dealer_head_extras(dealer):
@@ -176,7 +226,9 @@ def dealer_head_extras(dealer):
     return (f'<meta name="description" content="{desc}">\n'
             f'        <link rel="canonical" href="{url}">\n'
             f'        <script type="application/ld+json">\n{dealer_jsonld(dealer)}\n'
-            f'        </script>')
+            f'        </script>\n'
+            f'        <script type="application/ld+json">\n'
+            f'{dealer_breadcrumb_jsonld(dealer)}\n        </script>')
 
 # Dealer info as dictionaries
 dealers = [
@@ -629,25 +681,26 @@ def generate_html_files():
         <header>
             <div class="container">
                 <h1>LSVDealer.com</h1>
-                <p>Your Source for Low Speed Vehicle Dealers Nationwide</p>
+                <p>Your nationwide electric LSV &amp; low speed vehicle dealership network</p>
             </div>
         </header>
-        
+
         <nav>
             <div class="container">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#about">About LSVs</a></li>
-                    <li><a href="#dealers">Find Dealers</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="about.html">About LSVs</a></li>
+                    <li><a href="electric-lsv-vehicles.html">Electric LSVs</a></li>
+                    <li><a href="find-dealers.html">Find Dealers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
         </nav>
-        
+
         <main class="container">
             <section id="hero">
-                <h2>Find Your Perfect Low Speed Vehicle</h2>
-                <p>Connect with authorized dealers specializing in street-legal golf carts and low speed vehicles.</p>
+                <h2>Find Your Electric Low Speed Vehicle (LSV)</h2>
+                <p>LSVDealer.com is your nationwide electric LSV and street-legal golf cart dealer network. <a href="electric-lsv-vehicles.html">Explore electric low speed vehicles for sale</a> and connect with an authorized dealer near you.</p>
             </section>
             
             <section id="about">
@@ -725,14 +778,17 @@ def generate_html_files():
                 <div class="container">
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#about">About LSVs</a></li>
-                        <li><a href="index.html#dealers">Find Dealers</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="about.html">About LSVs</a></li>
+                        <li><a href="electric-lsv-vehicles.html">Electric LSVs</a></li>
+                        <li><a href="find-dealers.html">Find Dealers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
             </nav>
-            
+
             <main class="container">
+                {dealer_breadcrumb_html(dealer)}
+
                 <section class="dealer-header">
                     <h1>{dealer["name"]}</h1>
                     <p class="subtitle">Golf Cart &amp; Low Speed Vehicle (LSV) Dealer</p>
@@ -742,6 +798,8 @@ def generate_html_files():
                 <section class="dealer-content">
                     {dealer_content(dealer)}
                 </section>
+
+                {dealer_category_link_html(dealer)}
 
                 {dealer_faq_section(dealer)}
 

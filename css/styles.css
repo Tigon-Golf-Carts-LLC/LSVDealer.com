@@ -265,6 +265,49 @@ section {
     margin-top: 2rem;
 }
 
+/* Breadcrumb */
+.breadcrumb {
+    position: static;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    padding: 0;
+    border-radius: 0;
+}
+
+.breadcrumb a:hover {
+    background: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb span[aria-current="page"] {
+    color: var(--text-primary);
+}
+
+/* Contextual category link */
+.category-link {
+    background-color: var(--dark-surface);
+    border-left: 3px solid var(--primary-color);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.category-link p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
 /* Footer */
 footer {
     background-color: var(--dark-surface);
