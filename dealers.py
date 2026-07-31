@@ -218,7 +218,8 @@ def dealer_category_link_html(dealer):
     if dealer["filename"] in state_pages:
         extra = (' View all <a href="find-dealers.html#browse-dealerships-by-state">'
                  f'low speed vehicle dealerships in {dealer["name"]}</a> and nearby '
-                 'states.')
+                 f'states, or explore <a href="lsv-sales.html">low speed vehicle sales '
+                 f'in {dealer["name"]}</a> through our certified dealer network.')
     return ('<section class="category-link">\n'
             '                <p>New to low speed vehicles? Explore our guide to '
             '<a href="electric-lsv-vehicles.html">electric low speed vehicles for '
@@ -811,7 +812,9 @@ def generate_html_files():
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About LSVs</a></li>
+                    <li><a href="low-speed-vehicles.html">Low Speed Vehicles</a></li>
                     <li><a href="electric-lsv-vehicles.html">Electric LSVs</a></li>
+                    <li><a href="lsv-sales.html">LSV Sales</a></li>
                     <li><a href="find-dealers.html">Find Dealers</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -905,7 +908,9 @@ def generate_html_files():
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About LSVs</a></li>
+                        <li><a href="low-speed-vehicles.html">Low Speed Vehicles</a></li>
                         <li><a href="electric-lsv-vehicles.html">Electric LSVs</a></li>
+                        <li><a href="lsv-sales.html">LSV Sales</a></li>
                         <li><a href="find-dealers.html">Find Dealers</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
