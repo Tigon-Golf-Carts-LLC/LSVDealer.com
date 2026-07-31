@@ -210,13 +210,44 @@ def dealer_breadcrumb_html(dealer):
 
 
 def dealer_category_link_html(dealer):
-    """Contextual internal link from a dealer page to the LSV category hub."""
+    """Contextual internal links from a dealer page to the LSV hub and the
+    dealership directory (exact-match anchor text builds the hub's authority)."""
     return ('<section class="category-link">\n'
-            f'                <p>New to low speed vehicles? Explore our guide to '
+            '                <p>New to low speed vehicles? Explore our guide to '
             '<a href="electric-lsv-vehicles.html">electric low speed vehicles for '
-            'sale</a> to see why buyers choose street-legal LSVs, or browse '
-            '<a href="find-dealers.html">all LSV dealer locations</a>.</p>\n'
+            'sale</a>, or <a href="find-dealers.html">find a low speed vehicle '
+            'dealership</a> near you.</p>\n'
             '            </section>')
+
+
+def directory_itemlist_jsonld(dealer_list):
+    """ItemList of AutoDealer entries for the dealership directory (find-dealers).
+
+    Compact per-location records (name, url, telephone, address) suitable for a
+    directory hub — the full AutoDealer markup lives on each dealer page."""
+    items = []
+    for i, d in enumerate(dealer_list, start=1):
+        node = {
+            "@type": "AutoDealer",
+            "name": d["name"],
+            "url": f'{SITE_BASE}/{d["filename"]}',
+        }
+        if d["phone"]:
+            node["telephone"] = d["phone"]
+        if d["address"] and d["address"].lower() != "nationwide":
+            node["address"] = _postal_address(d["address"])
+        else:
+            node["areaServed"] = ("United States"
+                                  if d["address"].lower() == "nationwide"
+                                  else d["name"])
+        items.append({"@type": "ListItem", "position": i, "item": node})
+    obj = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Low Speed Vehicle Dealership Directory",
+        "itemListElement": items,
+    }
+    return json.dumps(obj, indent=2)
 
 
 def dealer_head_extras(dealer):
