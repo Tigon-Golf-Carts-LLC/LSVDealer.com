@@ -211,12 +211,19 @@ def dealer_breadcrumb_html(dealer):
 
 def dealer_category_link_html(dealer):
     """Contextual internal links from a dealer page to the LSV hub and the
-    dealership directory (exact-match anchor text builds the hub's authority)."""
+    dealership directory (exact-match anchor text builds the hub's authority).
+    State pages also deep-link to the hub's by-state section."""
+    state_pages = {fn for _, fn, _ in STATE_DEALERSHIPS}
+    extra = ""
+    if dealer["filename"] in state_pages:
+        extra = (' View all <a href="find-dealers.html#browse-dealerships-by-state">'
+                 f'low speed vehicle dealerships in {dealer["name"]}</a> and nearby '
+                 'states.')
     return ('<section class="category-link">\n'
             '                <p>New to low speed vehicles? Explore our guide to '
             '<a href="electric-lsv-vehicles.html">electric low speed vehicles for '
             'sale</a>, or <a href="find-dealers.html">find a low speed vehicle '
-            'dealership</a> near you.</p>\n'
+            f'dealership</a> near you.{extra}</p>\n'
             '            </section>')
 
 
@@ -248,6 +255,89 @@ def directory_itemlist_jsonld(dealer_list):
         "itemListElement": items,
     }
     return json.dumps(obj, indent=2)
+
+
+# State-level dealer pages used by the find-dealers directory, the homepage
+# "by state" grid, and the state-page back-links (single source of truth).
+STATE_DEALERSHIPS = [
+    ("Pennsylvania", "dealer-pennsylvania.html",
+     "Serving Philadelphia, the Poconos, Scranton–Wilkes-Barre, and Hatfield with "
+     "street-legal LSVs and electric golf carts."),
+    ("New Jersey", "dealer-new-jersey.html",
+     "Covering the Jersey Shore and beyond, including Ocean View and Pleasantville, "
+     "with neighborhood-ready electric low speed vehicles."),
+    ("Delaware", "dealer-delaware.html",
+     "Dover-area and statewide street-legal golf carts and electric LSVs across the "
+     "First State."),
+    ("Virginia", "dealer-virginia.html",
+     "From Virginia Beach and Portsmouth to Gloucester Point, serving coastal and "
+     "inland communities with LSVs."),
+    ("North Carolina", "dealer-north-carolina.html",
+     "Raleigh-area and statewide LSV sales and service for neighborhoods, campuses, "
+     "and resorts."),
+    ("South Carolina", "dealer-south-carolina.html",
+     "Orangeburg-area and statewide street-legal golf carts and electric low speed "
+     "vehicles."),
+    ("Florida", "dealer-florida.html",
+     "Lecanto-area and statewide coverage for LSVs suited to Florida's planned "
+     "communities and warm-weather driving."),
+    ("Ohio", "dealer-ohio.html",
+     "Swanton-area and statewide sales and service of electric low speed vehicles and "
+     "utility carts."),
+    ("Indiana", "dealer-indiana.html",
+     "South Bend-area and statewide street-legal LSVs for campuses, communities, and "
+     "job sites."),
+    ("Maryland", "dealer-maryland.html",
+     "Statewide coverage for street-legal golf carts and neighborhood electric "
+     "vehicles."),
+    ("New York", "dealer-new-york.html",
+     "Statewide LSV sales and service for towns, campuses, and planned communities."),
+]
+
+
+def find_dealers_state_section_html():
+    """The 'Browse All Low Speed Vehicle Dealerships by State' section for the hub."""
+    import html as _html
+    rows = "\n".join(
+        f'                <li><a href="{fn}">Low speed vehicle dealerships in '
+        f'{_html.escape(state)}</a> — {_html.escape(desc)}</li>'
+        for state, fn, desc in STATE_DEALERSHIPS
+    )
+    return (
+        '        <section class="content-section" id="browse-dealerships-by-state">\n'
+        "            <h2>Browse All Low Speed Vehicle Dealerships by State</h2>\n"
+        "            <p>Explore low speed vehicle dealerships by state below. Each "
+        "regional page lists the authorized low speed vehicle dealerships serving that "
+        "state, along with contact details and directions. Our network of low speed "
+        "vehicle dealerships spans 11 states across the East Coast, Southeast, and "
+        "Midwest.</p>\n"
+        "            <ul>\n"
+        f"{rows}\n"
+        "            </ul>\n"
+        "        </section>"
+    )
+
+
+def homepage_state_grid_html():
+    """A card grid of state dealer pages with keyword-rich anchor text."""
+    import html as _html
+    cards = "\n".join(
+        '                <div class="dealer-card">\n'
+        f'                    <h3>Low Speed Vehicle Dealers in {_html.escape(state)}</h3>\n'
+        f'                    <p>{_html.escape(desc)}</p>\n'
+        f'                    <a href="{fn}" class="btn">View {_html.escape(state)} Dealers</a>\n'
+        "                </div>"
+        for state, fn, desc in STATE_DEALERSHIPS
+    )
+    return (
+        '            <section id="dealers-by-state">\n'
+        "                <h2>Low Speed Vehicle Dealers by State</h2>\n"
+        "                <p>Find certified low speed vehicle dealers in your state:</p>\n"
+        '                <div class="dealer-grid">\n'
+        f"{cards}\n"
+        "                </div>\n"
+        "            </section>"
+    )
 
 
 def dealer_head_extras(dealer):
@@ -684,7 +774,7 @@ def generate_html_files():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Golf Cart &amp; LSV Dealers Nationwide | LSVDealer.com</title>
+        <title>LSV Dealer – Certified Low Speed Vehicle Dealers Nationwide</title>
         <meta name="description" content="Find street-legal golf carts and low speed vehicles (LSVs) from authorized dealers near you. Shop electric carts &amp; NEVs nationwide — browse dealers and call today.">
         <link rel="canonical" href="https://lsvdealer.com/">
         <link rel="stylesheet" href="css/styles.css">
@@ -730,8 +820,8 @@ def generate_html_files():
 
         <main class="container">
             <section id="hero">
-                <h2>Find Your Electric Low Speed Vehicle (LSV)</h2>
-                <p>LSVDealer.com is your nationwide electric LSV and street-legal golf cart dealer network. <a href="electric-lsv-vehicles.html">Explore electric low speed vehicles for sale</a> and connect with an authorized dealer near you.</p>
+                <h1>America's Network of Certified Low Speed Vehicle Dealers</h1>
+                <p>LSVDealer.com connects buyers with authorized low speed vehicle dealers across the United States. Browse our network of trusted LSV dealers in <a href="find-dealers.html">Pennsylvania, New Jersey, Delaware, Virginia, Florida, and more</a>.</p>
             </section>
             
             <section id="about">
@@ -781,6 +871,11 @@ def generate_html_files():
     </html>
     '''
     
+    # Inject the keyword-rich "by state" grid ahead of the full dealer network.
+    index_html = index_html.replace(
+        '            <section id="dealers">',
+        homepage_state_grid_html() + '\n\n            <section id="dealers">', 1)
+
     # Write index.html
     with open('index.html', 'w') as f:
         f.write(index_html)
