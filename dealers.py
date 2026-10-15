@@ -381,19 +381,6 @@ dealers = [
         "review": "https://g.page/r/CRa9-YidFz2yEBM/review"
     },
     {
-        "filename": "dealer-pocono-pa.html",
-        "name": "Pocono, PA",
-        "phone": "570-643-0152",
-        "address": "1712 Pennsylvania 940, Pocono Pines, PA 18350",
-        "latlon": "41.10286354605563, -75.48758590250345",
-        "cid": "https://www.google.com/maps?cid=17137841834562046914",
-        "facebook": "https://www.facebook.com/TigonGolfCartsPoconos/",
-        "youtube": "https://www.youtube.com/@TIGONGolfCartsPoconosPA",
-        "website": "https://tigongolfcarts.com/pocono/",
-        "pinterest": "",
-        "review": "https://g.page/r/CcJL5i1Z2NXtEBM/review"
-    },
-    {
         "filename": "dealer-ocean-view-nj.html",
         "name": "Ocean View, NJ",
         "phone": "609-840-0404",
