@@ -14,53 +14,6 @@
             margin-bottom: 2rem;
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            background-color: var(--dark-surface);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-        }
-        
-        .submit-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .submit-btn:hover {
-            background-color: var(--primary-dark);
-        }
-        
         .contact-info {
             background-color: var(--dark-card);
             padding: 2rem;
@@ -128,55 +81,134 @@
             <p class="subtitle">Get in touch with our team</p>
         </section>
         
+        <div class="contact-info">
+            <h2>Talk to Us Now</h2>
+            <p>Questions about low speed vehicles, pricing, availability or financing? Call our team.</p>
+            <p class="tgn-cta">
+                <a href="tel:18448446638" class="btn">Call Now: 1-844-844-6638</a>
+                <button type="button" class="btn tgn-alt" data-tigon-open data-tigon-title="Apply for Financing" data-tigon-message="I would like to apply for financing.">Apply for Financing</button>
+            </p>
+        </div>
+
         <div class="contact-form">
             <h2>Send Us a Message</h2>
-            <p>Fill out the form below and we'll get back to you as soon as possible.</p>
-            
-            <form id="contactForm" action="javascript:void(0);" onsubmit="submitForm()">
-                <div class="form-group">
-                    <label for="firstName">First Name*</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" required>
+            <p>Fill out the form below and we'll get back to you as soon as possible. Fields marked * are required.</p>
+
+            <!-- TIGON lead form: Contact form (LSV DEALER). Sent by js/tigon-lead.js -->
+            <form id="tigon-contact-form" class="tigon-lead-form" method="post" action="https://tigoniot.com/hooks/XQDekbofU7YcQQbGLWgsE6stV2ggHHGH" enctype="multipart/form-data" novalidate>
+                <div class="tgn-grid">
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-first_name">First name<span class="tgn-req" aria-hidden="true">*</span></label>
+                        <input type="text" name="first_name" id="tigon-contact-form-first_name" autocomplete="given-name" required>
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-last_name">Last name<span class="tgn-req" aria-hidden="true">*</span></label>
+                        <input type="text" name="last_name" id="tigon-contact-form-last_name" autocomplete="family-name" required>
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-email">Email<span class="tgn-req" aria-hidden="true">*</span></label>
+                        <input type="email" name="email" id="tigon-contact-form-email" autocomplete="email" required>
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-phone1">Phone<span class="tgn-req" aria-hidden="true">*</span></label>
+                        <input type="tel" name="phone1" id="tigon-contact-form-phone1" autocomplete="tel" required>
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-phone2">Alternate phone</label>
+                        <input type="tel" name="phone2" id="tigon-contact-form-phone2">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-zip_code">ZIP code</label>
+                        <input type="text" name="zip_code" id="tigon-contact-form-zip_code" inputmode="numeric" autocomplete="postal-code">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field">
+                        <label for="tigon-contact-form-address">Address</label>
+                        <input type="text" name="address" id="tigon-contact-form-address" autocomplete="street-address">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-brand">Brand</label>
+                        <input type="text" name="brand" id="tigon-contact-form-brand" placeholder="e.g. TIGON">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-model">Model you are interested in</label>
+                        <input type="text" name="model" id="tigon-contact-form-model">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-vin_number">VIN (optional)</label>
+                        <input type="text" name="vin_number" id="tigon-contact-form-vin_number">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field tgn-half">
+                        <label for="tigon-contact-form-sku_number">Stock # / SKU (optional)</label>
+                        <input type="text" name="sku_number" id="tigon-contact-form-sku_number">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field">
+                        <label for="tigon-contact-form-comments">Message</label>
+                        <textarea name="comments" id="tigon-contact-form-comments" rows="5" placeholder="How can we help?"></textarea>
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field">
+                        <label for="tigon-contact-form-image_1">Photo 1 (optional)</label>
+                        <input type="file" name="image_1" id="tigon-contact-form-image_1" accept="image/*,.heic,.heif">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field">
+                        <label for="tigon-contact-form-image_2">Photo 2 (optional)</label>
+                        <input type="file" name="image_2" id="tigon-contact-form-image_2" accept="image/*,.heic,.heif">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
+                    <div class="tgn-field">
+                        <label for="tigon-contact-form-image_3">Photo 3 (optional)</label>
+                        <input type="file" name="image_3" id="tigon-contact-form-image_3" accept="image/*,.heic,.heif">
+                        <span class="tgn-error" aria-live="polite"></span>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="lastName">Last Name*</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" required>
+                <p class="tgn-note">Photos: up to 10 MB each (jpg, png, gif, webp or heic).</p>
+                <!-- Spam trap: leave this hidden field empty. Do not remove. -->
+                <div class="tgn-hp" aria-hidden="true">
+                    <label for="tigon-contact-form-hp">Leave this field empty</label>
+                    <input type="text" name="website" id="tigon-contact-form-hp" tabindex="-1" autocomplete="off" value="">
                 </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address*</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Phone Number*</label>
-                    <input type="tel" id="phone" name="phone" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Message*</label>
-                    <textarea id="message" name="message" class="form-control" required></textarea>
-                </div>
-                
-                <button type="submit" class="submit-btn">Send Message</button>
-                
-                <div id="formStatus" style="margin-top: 1rem;"></div>
+                <!-- Filled in automatically by js/tigon-lead.js -->
+                <input type="hidden" name="form_name" value="Contact form">
+                <input type="hidden" name="url" value="">
+                <input type="hidden" name="referrer" value="">
+                <input type="hidden" name="utm_source" value="">
+                <input type="hidden" name="utm_medium" value="">
+                <input type="hidden" name="utm_campaign" value="">
+                <input type="hidden" name="utm_term" value="">
+                <input type="hidden" name="utm_content" value="">
+                <input type="hidden" name="gclid" value="">
+                <input type="hidden" name="fbclid" value="">
+                <input type="hidden" name="ga_client_id" value="">
+                <button type="submit" class="tgn-submit">Send Message</button>
+                <p class="tigon-msg" role="status" aria-live="polite"></p>
             </form>
         </div>
-        
+
         <div class="contact-info">
             <h2>Other Ways to Reach Us</h2>
             
             <div>
                 <h3>General Inquiries</h3>
                 <p>Email: <!--email_off--><a href="mailto:info@lsvdealer.com">info@lsvdealer.com</a><!--/email_off--></p>
-                <p>Phone: 1-844-844-6638</p>
+                <p>Phone: <a href="tel:18448446638">1-844-844-6638</a></p>
             </div>
             
             <div style="margin-top: 2rem;">
                 <h3>Dealer Support</h3>
                 <p>Email: <!--email_off--><a href="mailto:dealers@lsvdealer.com">dealers@lsvdealer.com</a><!--/email_off--></p>
-                <p>Phone: 1-844-844-6638</p>
+                <p>Phone: <a href="tel:18448446638">1-844-844-6638</a></p>
             </div>
         </div>
     </main>
@@ -199,41 +231,6 @@
         </div>
     </footer>
     
-    <script>
-        function submitForm() {
-            // Get form values
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const message = document.getElementById('message').value;
-            
-            // Display sending message
-            const formStatus = document.getElementById('formStatus');
-            formStatus.innerHTML = '<p style="color: var(--primary-light);">Sending your message...</p>';
-            
-            // In a real implementation, this would send data to a server
-            // For this static demo, we'll simulate a successful submission
-            setTimeout(() => {
-                // Clear form
-                document.getElementById('contactForm').reset();
-                
-                // Show success message
-                formStatus.innerHTML = '<p style="color: var(--primary-light);">Thank you! Your message has been sent to contact@tigongolfcarts.com with the subject: [LSVDEALER.COM WEBSITE]</p>';
-                
-                // Log the submission (in a real implementation, this would be sent to the server)
-                console.log({
-                    to: 'contact@tigongolfcarts.com',
-                    subject: '[LSVDEALER.COM WEBSITE]',
-                    body: `
-                        Name: ${firstName} ${lastName}
-                        Email: ${email}
-                        Phone: ${phone}
-                        Message: ${message}
-                    `
-                });
-            }, 1500);
-        }
-    </script>
+    <script src="/js/tigon-lead.js" defer></script>
 </body>
 </html>

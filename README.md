@@ -34,3 +34,13 @@ To modify dealer information or add new dealers:
 ## License
 
 © 2025 LSVDealer.com - All Rights Reserved
+
+## Lead forms (TIGON IOT → Webhook Flows)
+
+- `js/tigon-lead.js` sends every `form.tigon-lead-form` to the site's TIGON webhook (form name "Contact form") and adds a
+  "Get a Quote" pop-up form, a Call Now / Financing bar, and (on dealer pages) a Call Now / Get a Quote / Apply for
+  Financing row. It is loaded on every page, and `dealers.py` writes the same `<script>` tag when it regenerates pages.
+- Any element with `data-tigon-open` opens the pop-up form. Add `data-brand`, `data-model`, `data-vin` and `data-sku` to the
+  button (or an element with `data-tigon-cart`) to pre-fill the cart the visitor asked about.
+- Lead form styles live at the end of `css/styles.css` (`.tgn-*` classes).
+- No signing secret is used. The site is static, so leads are posted straight from the browser.
