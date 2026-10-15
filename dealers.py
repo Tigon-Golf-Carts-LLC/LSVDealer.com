@@ -882,6 +882,7 @@ def generate_html_files():
                 <p>&copy; 2025 LSVDealer.com - All Rights Reserved</p>
             </div>
         </footer>
+        <script src="js/tigon-lead.js" defer></script>
     </body>
     </html>
     '''
@@ -968,6 +969,7 @@ def generate_html_files():
                     <p>&copy; 2025 LSVDealer.com - All Rights Reserved</p>
                 </div>
             </footer>
+            <script src="js/tigon-lead.js" defer></script>
         </body>
         </html>
         '''

@@ -403,3 +403,66 @@ footer {
         font-size: 2rem;
     }
 }
+
+/* TIGON lead forms: pop-up "Get a Quote" form, Call Now bar, contact form */
+.tigon-lead-form .tgn-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.tigon-lead-form .tgn-field { flex: 1 1 100%; display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.tigon-lead-form .tgn-half { flex: 1 1 240px; }
+.tigon-lead-form label { font-weight: 500; font-size: 0.95rem; }
+.tigon-lead-form .tgn-req { color: var(--primary-light); margin-left: 2px; }
+.tigon-lead-form input[type=text], .tigon-lead-form input[type=email], .tigon-lead-form input[type=tel],
+.tigon-lead-form textarea {
+    width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid var(--border-color);
+    background-color: var(--dark-surface); color: var(--text-primary); font-family: inherit; font-size: 1rem;
+}
+.tigon-lead-form textarea { min-height: 120px; resize: vertical; }
+.tigon-lead-form input[readonly] { opacity: 0.8; border-style: dashed; }
+.tigon-lead-form input[type=file] { color: var(--text-secondary); font-size: 0.9rem; max-width: 100%; }
+.tigon-lead-form input:focus, .tigon-lead-form textarea:focus {
+    outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.tigon-lead-form [aria-invalid=true] { border-color: #e57373; }
+.tigon-lead-form .tgn-error { color: #ef9a9a; font-size: 0.85rem; min-height: 0; }
+.tigon-lead-form .tgn-error:empty { display: none; }
+.tigon-lead-form .tgn-note { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0 0; }
+.tigon-lead-form .tgn-submit {
+    margin-top: 1rem; background-color: var(--primary-color); color: #fff; border: none; padding: 0.75rem 1.5rem;
+    border-radius: 4px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background-color 0.3s ease;
+}
+.tigon-lead-form .tgn-submit:hover { background-color: var(--primary-dark); }
+.tigon-lead-form .tgn-submit[disabled] { opacity: 0.6; cursor: wait; }
+.tigon-lead-form .tigon-msg { margin: 1rem 0 0; font-weight: 600; }
+.tigon-lead-form .tigon-msg:empty { display: none; }
+.tigon-lead-form .tgn-ok { color: var(--primary-light); }
+.tigon-lead-form .tgn-bad { color: #ef9a9a; }
+/* Spam trap: moved off-screen, never display:none only */
+.tgn-hp { position: absolute !important; left: -9999px !important; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+.tgn-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-start; justify-content: center;
+    padding: 2rem 1rem; overflow-y: auto; }
+.tgn-modal[hidden] { display: none; }
+.tgn-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); }
+.tgn-dialog { position: relative; width: 100%; max-width: 680px; background: var(--dark-card); border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 2rem; box-shadow: 0 10px 40px var(--shadow-color); }
+.tgn-dialog h2 { margin-top: 0; padding-right: 2rem; }
+.tgn-dialog .tgn-sub { color: var(--text-secondary); }
+.tgn-close { position: absolute; top: 0.75rem; right: 0.75rem; width: 2.25rem; height: 2.25rem; border: none; border-radius: 50%;
+    background: var(--dark-surface); color: var(--text-primary); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.tgn-close:hover { background: var(--border-color); }
+html.tgn-lock { overflow: hidden; }
+
+.tgn-bar { position: fixed; right: 1rem; bottom: 1rem; z-index: 900; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.tgn-btn { display: inline-block; border: none; border-radius: 999px; padding: 0.7rem 1.2rem; font: inherit; font-weight: 600;
+    font-size: 0.95rem; background: var(--primary-color); color: #fff; cursor: pointer; box-shadow: 0 4px 14px var(--shadow-color); }
+.tgn-btn:hover { background: var(--primary-dark); color: #fff; text-decoration: none; }
+.tgn-btn.tgn-alt, .btn.tgn-alt { background: var(--dark-surface); border: 1px solid var(--primary-color); color: var(--primary-light); }
+.tgn-btn.tgn-alt:hover, .btn.tgn-alt:hover { background: var(--dark-card); color: var(--primary-color); }
+button.btn { border: none; font: inherit; font-weight: 500; cursor: pointer; }
+.tgn-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+body.tgn-has-bar footer { padding-bottom: 5rem; }
+@media (max-width: 600px) {
+    .tgn-bar { left: 0; right: 0; bottom: 0; gap: 0; padding: 0; background: var(--dark-surface); border-top: 1px solid var(--border-color); }
+    .tgn-bar .tgn-btn { flex: 1 1 0; border-radius: 0; box-shadow: none; padding: 0.9rem 0.5rem; text-align: center; }
+    .tgn-dialog { padding: 1.5rem 1rem; }
+    .tgn-modal { padding: 0.5rem; }
+}
