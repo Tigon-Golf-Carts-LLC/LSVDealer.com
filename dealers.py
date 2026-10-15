@@ -376,8 +376,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=12843447677705895190",
         "facebook": "https://www.facebook.com/TigonGolfCartsDover/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsDoverDE",
-        "website": "https://tigongolfcarts.com/dover/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/dover",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/dover-delaware/",
         "review": "https://g.page/r/CRa9-YidFz2yEBM/review"
     },
     {
@@ -402,8 +402,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=6446924254429489274",
         "facebook": "https://www.facebook.com/TigonGolfCartsOceanView/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsOceanViewNJ",
-        "website": "https://tigongolfcarts.com/ocean-view/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/ocean-view",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/ocean-view-new-jersey/",
         "review": "https://g.page/r/CXqoHr9zE3hZEBM/review"
     },
     {
@@ -415,8 +415,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=8221925612164093496",
         "facebook": "https://www.facebook.com/TigonGolfCartsHatfield/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsHatfieldPA",
-        "website": "https://tigongolfcarts.com/hatfield/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/hatfield",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/hatfield-pennsylvania/",
         "review": "https://g.page/r/CTgWulrIJRpyEBM/review"
     },
     {
@@ -428,21 +428,21 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=13243686786001524416",
         "facebook": "https://www.facebook.com/TigonGolfCartsScranton/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsScrantonWilkesPA",
-        "website": "https://tigongolfcarts.com/scranton-wilkes-barre/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/scranton-wilkes-barre",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/scranton-pennsylvania/",
         "review": "https://g.page/r/CcDWJ7z2Bsu3EBM/review"
     },
     {
         "filename": "dealer-raleigh-nc.html",
         "name": "Raleigh, NC",
-        "phone": "984-489-0298",
+        "phone": "984-489-0296",
         "address": "2700 S Wilmington St, Raleigh, NC 27603",
         "latlon": "35.7471032,-78.6452007",
         "cid": "https://www.google.com/maps?cid=14570072271497929915",
         "facebook": "https://www.facebook.com/TigonGolfCartsRaleigh/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsRaleighNC",
-        "website": "https://tigongolfcarts.com/raleigh/",
-        "pinterest": "https://www.pinterest.com/tigongolfcarts/tigon-golf-carts-in-raleigh/",
+        "website": "https://tigongolfcarts.com/raleigh",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/raleigh-north-carolina/",
         "review": "https://g.page/r/CbskZw6JSzPKEBM/review"
     },
     {
@@ -454,9 +454,9 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=17192321019507936230",
         "facebook": "https://www.facebook.com/TigonGolfCartsOrangeburg/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsOrangeburgSC",
-        "website": "https://tigongolfcarts.com/orangeburg/",
-        "pinterest": "",
-        "review": ""
+        "website": "https://tigongolfcarts.com/orangeburg",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/orangeburg-south-carolina/",
+        "review": "https://g.page/r/CeaLQODgZJfuEBM/review"
     },
     {
         "filename": "dealer-swanton-oh.html",
@@ -467,8 +467,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=16517552730289967239",
         "facebook": "https://www.facebook.com/TigonGolfCartsSwanton/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsSwantonOH",
-        "website": "https://tigongolfcarts.com/swanton/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/swanton",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/swanton-ohio/",
         "review": "https://g.page/r/CYeQt8exIjrlEBM/review"
     },
     {
@@ -480,9 +480,9 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=17532455648086849827",
         "facebook": "https://www.facebook.com/TigonGolfCartsSouthBend/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsSouthBendIN",
-        "website": "https://tigongolfcarts.com/south-bend/",
-        "pinterest": "",
-        "review": ""
+        "website": "https://tigongolfcarts.com/south-bend",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/south-bend-indiana/",
+        "review": "https://g.page/r/CSP5gWCFy0_zEBM/review"
     },
     {
         "filename": "dealer-gloucester-point-va.html",
@@ -493,8 +493,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=16682967888503617377",
         "facebook": "https://www.facebook.com/TigonGolfCartsGloucesterPoint/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsGloucesterPoint",
-        "website": "https://tigongolfcarts.com/gloucester-point/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/gloucester-point",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/gloucester-point-virginia/",
         "review": ""
     },
     {
@@ -506,8 +506,8 @@ dealers = [
         "cid": "https://www.google.com/maps?cid=4773802157529013859",
         "facebook": "https://www.facebook.com/TigonGolfCartsLecanto/",
         "youtube": "https://www.youtube.com/@TIGONGolfCartsLecantoFL",
-        "website": "https://tigongolfcarts.com/lecanto/",
-        "pinterest": "",
+        "website": "https://tigongolfcarts.com/lecanto",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/lecanto-florida/",
         "review": "https://g.page/r/CWOeggPF8z9CEBM/review"
     },
     {
@@ -561,6 +561,71 @@ dealers = [
         "website": "",
         "pinterest": "",
         "review": "https://g.page/r/CcfFABSQEz-VEBM/review"
+    },
+    {
+        "filename": "dealer-long-pond-pa.html",
+        "name": "Long Pond, PA",
+        "phone": "570-580-0567",
+        "address": "4738 PA-115, Long Pond, PA 18334",
+        "latlon": "41.053988,-75.534146",
+        "cid": "https://www.google.com/maps?cid=11714838830522733253",
+        "facebook": "https://www.facebook.com/TigonGolfCartsPoconos/",
+        "youtube": "",
+        "website": "https://tigongolfcarts.com/long-pond",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/long-pond-pennsylvania/",
+        "review": ""
+    },
+    {
+        "filename": "dealer-bayville-nj.html",
+        "name": "Bayville, NJ",
+        "phone": "732-908-7166",
+        "address": "155 Atlantic City Blvd, Bayville, NJ 08721",
+        "latlon": "39.9277698,-74.1748497",
+        "cid": "https://www.google.com/maps?cid=16812778070531162551",
+        "facebook": "https://www.facebook.com/TigonGolfCartsBayville/",
+        "youtube": "",
+        "website": "https://tigongolfcarts.com/bayville",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/bayville-new-jersey/",
+        "review": "https://g.page/r/CbfBfMWT_FLpEBM/review"
+    },
+    {
+        "filename": "dealer-waretown-nj.html",
+        "name": "Waretown, NJ",
+        "phone": "732-998-8146",
+        "address": "526 US-9, Waretown, NJ 08758",
+        "latlon": "39.7998853,-74.1971619",
+        "cid": "https://www.google.com/maps?cid=11595558320608622005",
+        "facebook": "https://www.facebook.com/TigonGolfCartsWaretown/",
+        "youtube": "",
+        "website": "https://tigongolfcarts.com/waretown",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/waretown-new-jersey/",
+        "review": "https://g.page/r/CbW1M1DbsuugEBM/review"
+    },
+    {
+        "filename": "dealer-rio-grande-nj.html",
+        "name": "Rio Grande, NJ",
+        "phone": "609-551-0234",
+        "address": "1304 NJ-47 b, Rio Grande, NJ 08242",
+        "latlon": "",
+        "cid": "https://www.google.com/maps?cid=17469351422439742131",
+        "facebook": "https://www.facebook.com/TigonGolfCartsRioGrande/",
+        "youtube": "",
+        "website": "https://tigongolfcarts.com/rio-grande",
+        "pinterest": "https://www.pinterest.com/tigongolfcarts/rio-grande-new-jersey/",
+        "review": "https://g.page/r/CbNa_OaPmm_yEBM/review"
+    },
+    {
+        "filename": "dealer-wichita-falls-tx.html",
+        "name": "Wichita Falls, TX",
+        "phone": "940-716-3334",
+        "address": "3904 Sheppard Access Rd, Wichita Falls, TX 76306",
+        "latlon": "",
+        "cid": "https://www.google.com/maps?cid=2130717932581096026",
+        "facebook": "",
+        "youtube": "",
+        "website": "",
+        "pinterest": "",
+        "review": ""
     },
     # Service states (next 12)
     {
